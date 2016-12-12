@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Database.DatabaseConnection;
+import Database.DbInteraction;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,24 +34,20 @@ public class Register extends JFrame {
 	private JTextField txtEmail;
 	private JTextField txtUsername;
 	private JTextField txtPassword;
+	private DbInteraction dbInteraction;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register frame = new Register();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public static void run() {
+		try {
+			Register frame = new Register();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	
 	/**
 	 * Create the frame.
 	 */
@@ -151,11 +149,10 @@ public class Register extends JFrame {
 		lblNewLabel_1.setBounds(318, 55, 182, 138);
 		contentPane.add(lblNewLabel_1);
 
-		JButton btnNewButton = new JButton("Register");
-	
-    
-		btnNewButton.setBounds(152, 287, 89, 23);
-		contentPane.add(btnNewButton);
+		JButton btnRegister = new JButton("Register");
+
+		btnRegister.setBounds(168, 284, 89, 23);
+		contentPane.add(btnRegister);
 
 		txtEmail = new JTextField();
 		txtEmail.setColumns(10);
@@ -171,10 +168,28 @@ public class Register extends JFrame {
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(372, 229, 128, 20);
 		contentPane.add(txtPassword);
+
+		JButton btnBack = new JButton("Back");
+		btnBack.setBounds(44, 284, 89, 23);
+				contentPane.add(btnBack);
+		btnBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+			}
+		});
+
+		dbInteraction = new DbInteraction();
+		btnRegister.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				addUser();
+			}
+		});
 	}
 
-	private void InsertUserData() {
-		DatabaseConnection dbInteraction = new DatabaseConnection();
+	public void addUser() {
 		String firstname = txtFirstName.getText();
 		String lastname = txtLastName.getText();
 		String address = txtAddress.getText();
@@ -186,8 +201,12 @@ public class Register extends JFrame {
 		String ssn = txtSSN.getText();
 		String securityQuestion = txtSecurityQuestion.getText();
 		String secAnswer = txtSecurityAnswer.getText();
-		dbInteraction.InsertUserData(firstname, lastname, address, zip, state, username, password, email, ssn,
-				securityQuestion, secAnswer);
+		try {
+			dbInteraction.InsertUserData(firstname, lastname, address, zip, state, username, password, email, ssn,
+					securityQuestion, secAnswer);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
-	

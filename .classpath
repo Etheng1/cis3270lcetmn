@@ -2,5 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/etheng/Desktop/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/etheng/Desktop/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/etheng/Desktop/swingx-0.9.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
